@@ -10,7 +10,7 @@ CUDA_VERSION is machine dependent, in this installation version v11.6 (cu116) is
 ```shell
 conda activate <your_env_name>
 
-pip install -e largelanguagemodel -f https://download.pytorch.org/whl/cu116/torch_stable.html
+pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
 ```
 
 ## 📈 Tests

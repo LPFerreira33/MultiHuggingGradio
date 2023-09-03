@@ -42,7 +42,7 @@ class GradioApp(object):
         """
 
         # Create a Gradio interface using the Blocks context
-        with gr.Blocks(title="ContiGPT") as self.demo:
+        with gr.Blocks(title="MultiHuggingGradio") as self.demo:
             with gr.Row():
                 with gr.Column():
                     # Create a textbox for the user to input a question
@@ -72,9 +72,6 @@ class GradioApp(object):
 
         # Launch the Gradio interface with the defined components
         self.demo.launch(share=False)
-
-        # Close the Gradio interface when finished
-        self.demo.close()
 
     def ask_model(self, prompt: str, model_name: str, max_tokens: int = 100):
         """

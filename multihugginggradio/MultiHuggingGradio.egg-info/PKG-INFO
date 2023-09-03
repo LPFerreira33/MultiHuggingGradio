@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: MultiHuggingGradio
+Version: 0.1.0
+Summary: A short description of your package
+Requires-Python: ==3.8.*
+Description-Content-Type: text/markdown
+
+A longer description of your package
