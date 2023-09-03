@@ -1,0 +1,16 @@
+# Ignore compiled binaries and executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore user-specific files
+*.DS_Store
+*.idea/
+.vscode/
+
+# Ignore virtual environments
+venv/
+env/
+*.pyc
+__pycache__/
