@@ -1,0 +1,5 @@
+TASK: Chat
+AVAILABLE_MODELS: [databricks/dolly-v2-3b, databricks/dolly-v2-7b]  # First model name is used as default
+REPRODUCIBILITY:
+    SEED: 33
+VERBOSE: TRUE
