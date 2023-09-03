@@ -1,8 +1,8 @@
 import time
 import gradio as gr
 
-from largelanguagemodel.models.chat_llm import ChatLLM
-from largelanguagemodel.utils.config.config import UIConfig
+from multihugginggradio.models.chat_llm import ChatLLM
+from multihugginggradio.utils.config.config import UIConfig
 
 
 class GradioApp(object):

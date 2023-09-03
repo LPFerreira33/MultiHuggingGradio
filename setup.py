@@ -10,13 +10,13 @@ except FileNotFoundError:
 
 
 setup(
-    name="LargeLanguageModel",
+    name="MultiHuggingGradio",
     version="0.1.0",
     description="A short description of your package",
     long_description="A longer description of your package",
     long_description_content_type="text/markdown",
     # url="https://github.com/your-username/your-repo",
-    packages=find_namespace_packages(include=['largelanguagemodel.*'],
+    packages=find_namespace_packages(include=['multihugginggradio.*'],
                                      exclude=["tests", ".test_*", ".tests*"]),
     python_requires="==3.8.*",
     install_requires=requirements,

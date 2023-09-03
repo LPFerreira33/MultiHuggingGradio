@@ -1,5 +1,5 @@
 import torch
-from largelanguagemodel.models.base_llm import LLM
+from multihugginggradio.models.base_llm import LLM
 
 
 class ChatLLM(LLM):
