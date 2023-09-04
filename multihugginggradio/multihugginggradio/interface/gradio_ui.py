@@ -2,76 +2,197 @@ import time
 import gradio as gr
 
 from multihugginggradio.models.chat_llm import ChatLLM
+from multihugginggradio.models.image_class_model import ImageClassModel
 from multihugginggradio.utils.config.config import UIConfig
 
 
 class GradioApp(object):
     def __init__(
         self,
-        model_config: str = 'chat_config.yaml',
+        model_config: str = 'config.yaml',
     ):
         """
-        Initialize a GradioApp for interacting with a language model.
+        Initialize a GradioApp.
 
         Parameters:
             model_config (str): Path to the configuration file for the GradioApp and model settings.
-                               Defaults to 'chat_config.yaml'.
+                               Defaults to 'config.yaml'.
 
-        This class sets up a graphical interface using the Gradio library to interact with a
-        language model for various tasks. It loads configuration settings from the specified
-        `model_config` file, including available models, task type, and reproducibility settings.
+        This class sets up a graphical interface using the Gradio library to interact with models
+        for various tasks. It loads configuration settings from the specified
+        `model_config` file, including available models and reproducibility settings.
         """
         self.config = UIConfig.get_config(model_config)
         self.available_models = self.config['AVAILABLE_MODELS']
-        self.task = self.config['TASK']
         self.seed = self.config['REPRODUCIBILITY']['SEED']
         self.verbose = self.config['VERBOSE']
 
-        self.model = None
-
+        self.models = {}
         self.timers = []
 
     def run(self):
         """
-        Launch the GUI interface for interacting with the language model.
+        Launch the Gradio interface.
 
-        This method creates a Gradio interface using the `ask_model` function to generate
-        responses based on user input prompts. Users can select a model from the available
-        models and provide a text prompt. The generated response and the time taken for
-        text generation are displayed.
+        This method creates a Gradio interface allowing users to select a task (Chat or Image Classification),
+        choose a model for the task, and provide input (text prompt or image). It then generates responses
+        and displays the answers along with the time taken for generation.
+
+        The interface includes the following components:
+        - Radio buttons to select the task (Chat or Image Classification).
+        - Textbox for entering a question (for Chat task).
+        - Image upload component (for Image Classification task).
+        - Dropdown menus to select a model for each task.
+        - Textbox to display the generated answer.
+        - Textbox to display the elapsed time for response generation.
+        - Submit buttons to trigger model inference.
+
         """
-
         # Create a Gradio interface using the Blocks context
         with gr.Blocks(title="MultiHuggingGradio") as self.demo:
+
+            # Radio buttons for selecting the task (Chat or Image Classification)
+            task = gr.Radio(
+                list(self.available_models.keys()),
+                label="Select Task",
+            )
+
+            # Create interface components for Chat task
             with gr.Row():
                 with gr.Column():
-                    # Create a textbox for the user to input a question
-                    question = gr.Textbox(label="Question")
+                    # Textbox for user input question (Chat task)
+                    self.question = gr.Textbox(label="Question", visible=False)
+                    # Image upload component (Image Classification task)
+                    self.upload_image = gr.Image(visible=False, type="pil")
 
-                    # Create a dropdown menu for the user to select a model
-                    select_model = gr.Dropdown(self.available_models, label="Models", value=self.available_models[0])
+                    # Dropdown menu for selecting a chat model
+                    self.select_chat_model = gr.Dropdown(
+                        self.available_models['Chat'],
+                        label="Models",
+                        value=self.available_models['Chat'][0],
+                        visible=False,
+                    )
 
-                    gr.Examples(examples=["How do you say \"Hello\" in portuguese?", "Now say it in spanish"],
-                                inputs=[question])
+                    # Dropdown menu for selecting an image classification model
+                    self.select_image_class_model = gr.Dropdown(
+                        self.available_models['Image Classification'],
+                        label="Models",
+                        value=self.available_models['Image Classification'][0],
+                        visible=False,
+                    )
 
                 with gr.Column():
-                    # Create a textbox to display the generated answer
-                    answer = gr.Textbox(label="Answer")
+                    # Textbox to display the generated answer
+                    self.answer = gr.Textbox(label="Answer", visible=True)
 
-                    # Create a textbox to display the elapsed time for text generation
-                    elapsed_time = gr.Textbox(label="Elapsed Time")
+                    # Textbox to display the elapsed time for response generation
+                    self.elapsed_time = gr.Textbox(label="Elapsed Time", visible=True)
 
-            # Create a submit button
-            submit = gr.Button("Submit")
+            # Submit button and function for the Chat task
+            self.submit_question = gr.Button("Submit Question", visible=False)
+            self.submit_question.click(
+                fn=self.ask_model,
+                inputs=[self.question, self.select_chat_model],
+                outputs=[self.answer, self.elapsed_time],
+            )
 
-            # Create a clear button to reset the input fields
-            gr.ClearButton([question, answer, elapsed_time])
+            # Submit button and function for the Image Classification task
+            self.submit_image = gr.Button("Submit Image", visible=False)
+            self.submit_image.click(
+                fn=self.classify_image_model,
+                inputs=[self.upload_image, self.select_image_class_model],
+                outputs=[self.answer, self.elapsed_time]
+            )
 
-            # Define the behavior when the submit button is clicked
-            submit.click(fn=self.ask_model, inputs=[question, select_model], outputs=[answer, elapsed_time])
+            # Define the interface objects for each task
+            self.interface_objects = {
+                'Chat': [self.question, self.select_chat_model, self.submit_question],
+                'Image Classification': [self.upload_image, self.select_image_class_model, self.submit_image],
+            }
+
+            # Update interface components based on the selected task
+            task.change(
+                fn=self.change_interface,
+                inputs=task,
+                outputs=[value for values in self.interface_objects.values() for value in values],
+            )
 
         # Launch the Gradio interface with the defined components
         self.demo.launch(share=False)
+
+    def change_interface(self, task: str):
+        """
+        Change the visibility of interface objects based on the selected task.
+
+        Args:
+            task (str): The task for which the interface objects should be updated.
+
+        Returns:
+            list: A list of updated interface objects.
+
+        """
+        objects_list = []
+
+        # Iterate through the interface objects for different tasks
+        for cur_task, task_objects in self.interface_objects.items():
+            # Determine if the objects should be visible based on the selected task
+            is_visible = task == cur_task
+
+            # Update the visibility of each type of task object
+            for task_object in task_objects:
+                if str(task_object) == "textbox":
+                    objects_list.append(gr.Textbox.update(visible=is_visible))
+                elif str(task_object) == "button":
+                    objects_list.append(gr.Button.update(visible=is_visible))
+                elif str(task_object) == "dropdown":
+                    objects_list.append(gr.Dropdown.update(visible=is_visible))
+                elif str(task_object) == "image":
+                    objects_list.append(gr.Image.update(visible=is_visible))
+
+        return objects_list
+
+    def classify_image_model(self, image, model_name: str):
+        """
+        Classify an image using a specified image classification model.
+
+        Args:
+            image: The image to be classified as a NumPy array.
+            model_name (str): The name of the image classification model to use.
+
+        Returns:
+            tuple: A tuple containing the classification result and elapsed time text.
+
+                - result: The classification result returned by the model.
+                - elapsed_time_text: A string describing the time taken for the classification.
+
+        Note:
+            This method loads and initializes the specified image classification model if it
+            doesn't exist in the `self.models` dictionary. It records the elapsed time for
+            classification and appends it to `self.timers`.
+
+        """
+        # Record the starting time for performance measurement
+        start_time = time.time()
+
+        # Load the model if it doesn't exist yet
+        if model_name not in self.models.keys():
+            if self.verbose:
+                print(f'Loading Model ({model_name}) for task Image Classification...')
+
+            self.models[model_name] = ImageClassModel(model_name, self.verbose)
+
+        # Perform inference with the specified model
+        result = self.models[model_name].infer(
+            image,
+            seed=self.seed,
+        )
+
+        # Calculate elapsed time and append it to timers
+        elapsed_time = time.time() - start_time
+        self.timers.append(elapsed_time)
+        elapsed_time_text = f"The query took {elapsed_time} seconds"
+
+        return result, elapsed_time_text
 
     def ask_model(self, prompt: str, model_name: str, max_tokens: int = 100):
         """
@@ -95,27 +216,18 @@ class GradioApp(object):
         start_time = time.time()
 
         # Load the model if doesn't exist yet
-        if self.model is None or model_name not in self.model.keys():
+        if model_name not in self.models.keys():
             if self.verbose:
-                print(f'Loading Model ({model_name}) for task {self.task}...')
+                print(f'Loading Model ({model_name}) for task Chat...')
 
-            if self.task == 'Chat':
-                self.model = {model_name: ChatLLM(model_name, self.verbose)}
-            else:
-                raise Exception(f'Unespected task found ({self.task})')
-
-            if self.verbose:
-                print('Loading Complete!')
+            self.models = {model_name: ChatLLM(model_name, self.verbose)}
 
         # Generate text based on the provided prompt
-        result = self.model[model_name].infer(
+        result = self.models[model_name].infer(
             prompt,
             max_tokens=max_tokens,  # Limit the length of the generated text
             seed=self.seed,
         )
-
-        # Extract the generated text from the result
-        answer = result[0]["generated_text"]
 
         # Calculate the time taken for text generation
         elapsed_time = time.time() - start_time
@@ -123,9 +235,9 @@ class GradioApp(object):
         elapsed_time_text = f"The query took {elapsed_time} seconds"
 
         # Return the generated text and the time taken
-        return answer, elapsed_time_text
+        return result, elapsed_time_text
 
 
 if __name__ == "__main__":
-    gui = GradioApp(model_config='chat_config.yaml')
+    gui = GradioApp(model_config='config.yaml')
     gui.run()

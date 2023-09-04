@@ -1,15 +1,15 @@
 import torch
-from multihugginggradio.models.base_llm import LLM
+from multihugginggradio.models.base_model import BaseModel
 
 
-class ChatLLM(LLM):
+class ChatLLM(BaseModel):
     def __init__(
         self,
         model_name: str = 'databricks/dolly-v2-3b',
         verbose: bool = False,
     ):
         """
-        Initialize a Chat_LLM class based on a pre-existing LLM (Language Model) class.
+        Initialize a Chat_LLM class based on a pre-existing BaseModel class.
 
         Parameters:
             model_name (str): The name or path of the pre-trained language model to be used.
@@ -65,4 +65,4 @@ class ChatLLM(LLM):
         # Add the generated response to the conversation history
         self.conversation_history.append(result[0]["generated_text"])
 
-        return result
+        return result[0]["generated_text"]

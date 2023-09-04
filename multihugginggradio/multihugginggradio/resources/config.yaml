@@ -1,0 +1,6 @@
+AVAILABLE_MODELS: 
+    Chat: [databricks/dolly-v2-3b, databricks/dolly-v2-7b]  # First model name is used as default
+    Image Classification: [google/vit-base-patch16-224]  # First model name is used as default
+REPRODUCIBILITY:
+    SEED: 33
+VERBOSE: TRUE

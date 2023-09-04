@@ -36,7 +36,7 @@ class Config(object):
 
 
 class UIConfig(Config):
-    RESOURCE_LOCATION = 'largelanguagemodel.resources'
+    RESOURCE_LOCATION = 'multihugginggradio.resources'
 
     @staticmethod
     def get_config(config_file: str) -> dict:
