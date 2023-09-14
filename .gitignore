@@ -9,6 +9,7 @@
 *.idea/
 .vscode/
 *.ini
+*.egg-info/
 
 # Ignore virtual environments
 venv/
