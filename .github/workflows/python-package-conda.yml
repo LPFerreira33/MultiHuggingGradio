@@ -18,9 +18,9 @@ jobs:
     - uses: Jimver/cuda-toolkit@v0.2.11
       id: cuda-toolkit
       with:
-        cuda: '12.1.0'
-        method: network
-        sub-packages: ['nvcc']
+        cuda: '11.2.0'
+        # method: network
+        # sub-packages: ['nvcc']
         
     # - name: Create and activate Conda environment
     #   uses: conda-incubator/setup-miniconda@v2
