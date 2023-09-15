@@ -1,6 +1,4 @@
-# conda create -n conti python=3.8
-# conda activate conti
-
+numpy==1.24.2
 transformers==4.26.*
 gradio==3.41.*
 accelerate==0.22.*
