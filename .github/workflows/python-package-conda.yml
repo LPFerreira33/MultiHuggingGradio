@@ -42,7 +42,7 @@ jobs:
     - name: Install dependencies
       shell: bash -el {0}
       run: |
-        pip install -e multihugginggradio/multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
+        pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
         
     - name: Lint with flake8
       shell: bash -el {0}
