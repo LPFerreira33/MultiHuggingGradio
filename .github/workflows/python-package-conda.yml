@@ -37,7 +37,7 @@ jobs:
     - name: Install dependencies
       shell: bash -el {0}
       run: |
-        python setup.py install
+        python multihugginggradio/setup.py install
         
     - name: Lint with flake8
       run: |
