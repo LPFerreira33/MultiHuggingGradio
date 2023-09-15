@@ -21,10 +21,6 @@ jobs:
     #     cuda: '11.2.0'
         # method: network
         # sub-packages: ['nvcc']
-
-    - name: Check Versions
-      run: |
-        python check_versions.py
         
     # - name: Create and activate Conda environment
     #   uses: conda-incubator/setup-miniconda@v2
@@ -39,7 +35,10 @@ jobs:
       shell: bash -el {0}
       run: |
         pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
-        
+    
+    - name: Check Versions
+      run: python check_versions.py
+
     - name: Lint with flake8
       shell: bash -el {0}
       run: |
