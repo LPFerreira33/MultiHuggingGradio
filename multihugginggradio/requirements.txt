@@ -4,3 +4,10 @@ gradio==3.41.*
 accelerate==0.22.*
 pytest==7.4.*
 setuptools  # Install most recent version
+
+# Install pytorch
+--find-links https://download.pytorch.org/whl/cu116/torch_stable.html
+torch==1.13.1+cu116
+
+
+# https://download.pytorch.org/whl/cu116/torch-1.13.1%2Bcu116-cp38-cp38-linux_x86_64.whl
