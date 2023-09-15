@@ -24,8 +24,9 @@ jobs:
 
     - name: Create and activate Conda environment
       run: |
-        conda create -n multihugginggradio python=3.8
-        conda activate multihugginggradio
+        conda env update --file environment.yml --name base
+        # conda create -n multihugginggradio python=3.8
+        # conda activate multihugginggradio
 
     - name: Install dependencies
       run: |
