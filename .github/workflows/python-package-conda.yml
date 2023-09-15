@@ -26,13 +26,20 @@ jobs:
         # $CONDA/bin/conda env update --file environment.yml --name multihugginggradio_env
         # conda create -n multihugginggradio python=3.8
         # conda activate multihugginggradio
+        
 
+    # - name: Create and activate Conda environment
+    #   uses: conda-incubator/setup-miniconda@v2
+    #   with:
+    #     environment-file: environment.yml
     - name: Create and activate Conda environment
       uses: conda-incubator/setup-miniconda@v2
-      with:
-        environment-file: environment.yml
+        with:
+          auto-update-conda: true
+          python-version: "3.8"
 
     - name: Install dependencies
+      shell: bash -el {0}
       run: |
         python setup.py install
         
