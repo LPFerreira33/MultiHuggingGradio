@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
+    defaults:
+      run:
+        shell: bash -l {0}
 
     steps:
     - uses: actions/checkout@v3
@@ -18,10 +21,6 @@ jobs:
     #   run: |
     #     # $CONDA is an environment variable pointing to the root of the miniconda directory
     #     echo $CONDA/bin/conda >> $GITHUB_PATH
-
-    - name: Initialize shell for conda
-      run: |
-        $CONDA/bin/conda init bash
 
     - name: Create and activate Conda environment
       run: |
