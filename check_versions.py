@@ -4,7 +4,7 @@ import numpy as np
 
 print('__Python VERSION:', sys.version)
 print('__pyTorch VERSION:', torch.__version__)
-print('__CUDA VERSION')
+print('__pyTorch CUDA VERSION:', torch.version.cuda)
 print('__CUDNN VERSION:', torch.backends.cudnn.version())
 print('__Number CUDA Devices:', torch.cuda.device_count())
 print("OS: ", sys.platform)

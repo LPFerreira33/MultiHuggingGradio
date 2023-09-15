@@ -18,7 +18,7 @@ jobs:
     # - uses: Jimver/cuda-toolkit@v0.2.11
     #   id: cuda-toolkit
     #   with:
-    #     cuda: '11.2.0'
+    #     cuda: '11.6.0'
         # method: network
         # sub-packages: ['nvcc']
         
@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       shell: bash -el {0}
       run: |
-        pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
+        pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch-1.13.1%2Bcu116-cp38-cp38-linux_x86_64.whl
     
     - name: Check Versions
       shell: bash -el {0}
