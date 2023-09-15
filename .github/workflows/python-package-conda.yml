@@ -15,12 +15,16 @@ jobs:
       with:
         python-version: '3.8'
 
-    - uses: Jimver/cuda-toolkit@v0.2.11
-      id: cuda-toolkit
-      with:
-        cuda: '11.2.0'
+    # - uses: Jimver/cuda-toolkit@v0.2.11
+    #   id: cuda-toolkit
+    #   with:
+    #     cuda: '11.2.0'
         # method: network
         # sub-packages: ['nvcc']
+
+    - name: Check Versions
+      run: |
+        python check_versions.py
         
     # - name: Create and activate Conda environment
     #   uses: conda-incubator/setup-miniconda@v2
