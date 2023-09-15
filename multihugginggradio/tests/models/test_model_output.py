@@ -13,14 +13,10 @@ class TestChatLLM:
         the Chat_LLM class. It initializes attributes like the model name and expected response for later use.
         """
         cls.model_name = 'databricks/dolly-v2-3b'
-        cls.expected_output_gpu = [
-            {'generated_text': 'Hello, thank you for your inquiry! Our team is available in chat 24/7 and'
-             ' will respond to you as soon as possible!'}
-        ]
-        cls.expected_output_cpu = [
-            {'generated_text': 'Thank you for your inquiry!  Our staff team will be happy to help in this'
-             ' regard.  Please continue with your shopping here. DEALER LOGIN'}
-        ]
+        cls.expected_output_gpu = 'Hello, thank you for your inquiry! Our team is available in chat 24/7 and' \
+            ' will respond to you as soon as possible!'
+        cls.expected_output_cpu = 'Thank you for your inquiry!  Our staff team will be happy to help in this' \
+            ' regard.  Please continue with your shopping here. DEALER LOGIN'
 
         cls.model = ChatLLM(cls.model_name)
 
