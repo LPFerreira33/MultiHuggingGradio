@@ -19,6 +19,7 @@ jobs:
       id: cuda-toolkit
       with:
         cuda: '11.2.0'
+        method: 'network'
         
     # - name: Create and activate Conda environment
     #   uses: conda-incubator/setup-miniconda@v2
