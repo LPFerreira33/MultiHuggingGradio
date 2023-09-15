@@ -2,7 +2,7 @@ name: multihugginggradio_env
 channels:
   - defaults
 dependencies:
-  - python=3.8.16
+  - python=3.9
   - pip:
     - accelerate==0.22.0
     - aiofiles==23.2.1
