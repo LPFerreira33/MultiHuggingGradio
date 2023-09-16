@@ -6,11 +6,8 @@ pytest==7.4.*
 setuptools  # Install most recent version
 
 # Install pytorch
--f https://download.pytorch.org/whl/cu116/torch_stable.html
 torch==1.13.1+cu116
--f https://download.pytorch.org/whl/cu116/torch_stable.html
 torchaudio==0.13.1+cu116
--f https://download.pytorch.org/whl/cu116/torch_stable.html
 torchvision==0.14.1+cu116
 
 
