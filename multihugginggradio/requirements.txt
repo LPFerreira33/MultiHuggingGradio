@@ -9,6 +9,3 @@ setuptools  # Install most recent version
 torch==1.13.1+cu116
 torchaudio==0.13.1+cu116
 torchvision==0.14.1+cu116
-
-
-# https://download.pytorch.org/whl/cu116/torch-1.13.1%2Bcu116-cp38-cp38-linux_x86_64.whl

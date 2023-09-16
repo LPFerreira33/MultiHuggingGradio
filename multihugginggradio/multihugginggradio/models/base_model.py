@@ -30,6 +30,6 @@ class BaseModel():
             model=model_name,            # Model to be used
             torch_dtype=torch.bfloat16,  # Specify the data type for PyTorch tensors
             trust_remote_code=True,      # Allow running remote code (if applicable)
-            device_map="auto",           # Automatically select the device for computation
+            device ="cpu",           # Automatically select the device for computation
         )
         self.verbose = verbose

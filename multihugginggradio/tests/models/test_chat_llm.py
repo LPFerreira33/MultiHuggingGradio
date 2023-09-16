@@ -15,8 +15,9 @@ class TestChatLLM:
         cls.model_name = 'databricks/dolly-v2-3b'
         cls.expected_output_gpu = 'Hello, thank you for your inquiry! Our team is available in chat 24/7 and' \
             ' will respond to you as soon as possible!'
-        cls.expected_output_cpu = 'Thank you for your inquiry!  Our staff team will be happy to help in this' \
-            ' regard.  Please continue with your shopping here. DEALER LOGIN'
+        cls.expected_output_cpu = 'Hello there! My name is Joe, and I\'m a Machine Learning engineer at Databricks.' \
+            ' I help customers with their machine learning and AI problems. Let me walk you through the Databricks' \
+            ' platform.'
 
         cls.model = ChatLLM(cls.model_name)
 
