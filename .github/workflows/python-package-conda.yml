@@ -23,11 +23,19 @@ jobs:
       with:
         auto-update-conda: true
         python-version: "3.8.16"
+
     - name: Install dependencies
       shell: bash -el {0}
       run: |
         pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
-    
+
+
+    - name: Check  packages
+      shell: bash -el {0}
+      run: |
+        conda list
+        pip list
+
     - name: Check Versions
       shell: bash -el {0}
       run: python check_versions.py
