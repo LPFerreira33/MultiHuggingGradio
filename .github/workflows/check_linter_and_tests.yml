@@ -3,12 +3,8 @@ name: Python Package using Conda
 on: [push]
 
 jobs:
-  build-linux:
+  check_linter_and_tests:
     runs-on: ubuntu-latest
-    # runs-on: ${{ matrix.os }}
-    # strategy:
-    #   matrix:
-    #     os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v3
