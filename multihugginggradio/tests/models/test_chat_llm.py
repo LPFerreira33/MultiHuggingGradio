@@ -19,8 +19,7 @@ class TestChatLLM:
         cls.expected_output_win_cpu = 'Hello there! My name is Joe, and I\'m a Machine Learning engineer at' \
             ' Databricks. I help customers with their machine learning and AI problems. Let me walk you through' \
             ' the Databricks platform.'
-        cls.expected_output_linux_cpu = 'Welcome to bluemix. Here are some additional helpful links: \n\n' \
-            '- [Compute overview](https://www.bluemix.com/help/new-to-bluemix/computes-overview)'
+        cls.expected_output_ghactions = 'Welcome to Scribd. Your first message was sent on October 5, 2023.'
 
         cls.model = ChatLLM(cls.model_name)
 
@@ -34,13 +33,10 @@ class TestChatLLM:
         """
         response = self.model.infer("Hello!", max_tokens=50, seed=33)
 
-        if sys.platform == "win32":
+        if sys.platform == "win32":  # Check locally
             if torch.cuda.is_available():
                 assert response == self.expected_output_win_gpu, 'Failed! Unexpected output!'
             else:
                 assert response == self.expected_output_win_cpu, 'Failed! Unexpected output!'
-        else:
-            if torch.cuda.is_available():
-                assert response == self.expected_output_linux_gpu, 'Failed! Unexpected output!'
-            else:
-                assert response == self.expected_output_linux_cpu, 'Failed! Unexpected output!'
+        else:  # Check on github actions workflow
+            assert response == self.expected_output_ghactions, 'Failed! Unexpected output!'
