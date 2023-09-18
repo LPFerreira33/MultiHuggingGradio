@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build-linux:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     # runs-on: ${{ matrix.os }}
     # strategy:
     #   matrix:
@@ -28,7 +28,6 @@ jobs:
       shell: bash -el {0}
       run: |
         pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
-
 
     - name: Check  packages
       shell: bash -el {0}
