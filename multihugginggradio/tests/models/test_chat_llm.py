@@ -19,8 +19,6 @@ class TestChatLLM:
         cls.expected_output_win_cpu = 'Hello there! My name is Joe, and I\'m a Machine Learning engineer at' \
             ' Databricks. I help customers with their machine learning and AI problems. Let me walk you through' \
             ' the Databricks platform.'
-        # cls.expected_output_ghactions = 'Welcome to bluemix. Here are some additional helpful links: \n\n' \
-        #     '- [Compute overview](https://www.bluemix.com/help/new-to-bluemix/computes-overview)'
         cls.expected_output_ghactions = 'Welcome to Scribd. Your first message was sent on October 5, 2023.'
 
         cls.model = ChatLLM(cls.model_name)
