@@ -1,8 +1,11 @@
-# conda create -n conti python=3.8
-# conda activate conti
-
+numpy==1.24.3
 transformers==4.26.*
 gradio==3.41.*
 accelerate==0.22.*
 pytest==7.4.*
 setuptools  # Install most recent version
+
+# Install pytorch
+torch==1.13.1+cu116
+torchaudio==0.13.1+cu116
+torchvision==0.14.1+cu116

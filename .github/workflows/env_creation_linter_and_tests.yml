@@ -1,0 +1,46 @@
+name: Python Package using Conda
+
+on: [push]
+
+jobs:
+  check_linter_and_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+
+    - name: Create and activate Conda environment
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+        python-version: "3.8.16"
+
+    - name: Install dependencies
+      shell: bash -el {0}
+      run: |
+        pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torch_stable.html
+
+    - name: Check  packages
+      shell: bash -el {0}
+      run: |
+        conda list
+        pip list
+
+    - name: Lint with flake8
+      shell: bash -el {0}
+      run: |
+        conda install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Test with pytest
+      shell: bash -el {0}
+      run: |
+        pytest .

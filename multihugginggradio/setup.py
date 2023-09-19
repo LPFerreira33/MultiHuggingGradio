@@ -18,7 +18,7 @@ setup(
     # url="https://github.com/your-username/your-repo",
     packages=find_namespace_packages(include=['multihugginggradio.*'],
                                      exclude=["tests", ".test_*", ".tests*"]),
-    python_requires="==3.8.*",
+    python_requires="==3.8.16",
     install_requires=requirements,
     include_package_data=True,
 )
