@@ -40,4 +40,3 @@ class TestChatLLM:
                 assert response == self.expected_output_win_cpu, 'Failed! Unexpected output!'
         else:  # Check on github actions workflow
             assert response == self.expected_output_ghactions, 'Failed! Unexpected output!'
-

@@ -1,9 +1,9 @@
-name: Python Package using Conda
+name: Environment Creation and Tests
 
 on: [push]
 
 jobs:
-  check_linter_and_tests:
+  env_creation_linter_and_tests:
     runs-on: ubuntu-latest
 
     steps:
