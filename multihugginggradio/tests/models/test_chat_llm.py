@@ -13,7 +13,6 @@ class TestChatLLM:
         This class method is used to set up resources required for testing and to create an instance of
         the Chat_LLM class. It initializes attributes like the model name and expected response for later use.
         """
-        cls.model_name = 'databricks/dolly-v2-3b'
         cls.expected_output_win_gpu = 'Hello, thank you for your inquiry! Our team is available in chat 24/7 and' \
             ' will respond to you as soon as possible!'
         cls.expected_output_win_cpu = 'Hello there! My name is Joe, and I\'m a Machine Learning engineer at' \
@@ -21,6 +20,7 @@ class TestChatLLM:
             ' the Databricks platform.'
         cls.expected_output_ghactions = 'Welcome to Scribd. Your first message was sent on October 5, 2023.'
 
+        cls.model_name = 'databricks/dolly-v2-3b'
         cls.model = ChatLLM(cls.model_name)
 
     def test_inference_output(self):
