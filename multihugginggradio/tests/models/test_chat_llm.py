@@ -21,7 +21,7 @@ class TestChatLLM:
         cls.expected_output_ghactions = 'Welcome to Scribd. Your first message was sent on October 5, 2023.'
 
         cls.model_name = 'databricks/dolly-v2-3b'
-        cls.model = ChatLLM(cls.model_name)
+        cls.model = ChatLLM(cls.model_name, verbose=True)
 
     def test_inference_output(self):
         """

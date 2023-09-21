@@ -15,10 +15,10 @@ pip install -e multihugginggradio -f https://download.pytorch.org/whl/cu116/torc
 
 ## 📈 Tests
 
-Test files should start with prefix "test_" to become discoverable by pytest
+Test files should start with prefix "test_" to become discoverable by pytest. --cov flag will also create a coverage information for the tests
 Run tests with:
 ```shell
-pytest <folder_name>
+pytest --cov=multihugginggradio/multihugginggradio
 ```
 
 ## 🖇️ Documentation
