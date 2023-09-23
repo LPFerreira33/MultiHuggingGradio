@@ -25,12 +25,13 @@ class Config(object):
         """
 
         if resources_location is not None and is_resource(resources_location, config_file):
-            with open_binary(resources_location, config_file) as fp:
-                data = yaml.safe_load(fp)
-
+            with open_binary(resources_location, config_file) as f:
+                data = yaml.safe_load(f)
         elif os.path.isfile(config_file):
             with open(config_file, 'r') as f:
-                data = yaml.load(f)
+                data = yaml.safe_load(f)
+        else:
+            raise FileNotFoundError
 
         return data
 
