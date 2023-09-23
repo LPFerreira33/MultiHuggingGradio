@@ -46,4 +46,4 @@ class ImageClassModel:
         # Map the class index to the corresponding label and return it
         predicted_class = self.model.config.id2label[predicted_class_idx]
 
-        return predicted_class if not return_logits else predicted_class, logits
+        return predicted_class if not return_logits else (predicted_class, logits)
