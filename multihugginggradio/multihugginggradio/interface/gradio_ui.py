@@ -93,6 +93,9 @@ class GradioApp(object):
                     )
 
                 with gr.Column():
+                    # TODO: Make visibility not static, same for question and prompt
+                    # Maybe check if variable in active task
+
                     # Textbox to display the generated answer
                     self.answer = gr.Textbox(label="Answer", visible=False)
 
@@ -101,6 +104,9 @@ class GradioApp(object):
 
                     # Image to display the generated image
                     self.output_image = gr.Image(label="Output Image", visible=False)
+
+                    # Image to display the generated image
+                    self.output_image = gr.Image(label="Output Image", visible=True)
 
                     # Textbox to display the elapsed time for response generation
                     self.elapsed_time = gr.Textbox(label="Elapsed Time", visible=True)
@@ -123,6 +129,14 @@ class GradioApp(object):
 
             # Submit button and function for the Image Generation task
             self.submit_prompt = gr.Button("Generate Image", visible=False)
+            self.submit_prompt.click(
+                fn=self.gen_image_model,
+                inputs=[self.prompt, self.select_image_gen_model],
+                outputs=[self.output_image, self.elapsed_time]
+            )
+
+            # Submit button and function for the Image Generation task
+            self.submit_prompt = gr.Button("Submit Prompt", visible=False)
             self.submit_prompt.click(
                 fn=self.gen_image_model,
                 inputs=[self.prompt, self.select_image_gen_model],
