@@ -1,9 +1,10 @@
 import time
 import gradio as gr
 
+from multihugginggradio.utils.config.config import UIConfig
 from multihugginggradio.models.chat_llm import ChatLLM
 from multihugginggradio.models.image_class_model import ImageClassModel
-from multihugginggradio.utils.config.config import UIConfig
+from multihugginggradio.models.image_gen_model import ImageGenModel
 
 
 class GradioApp(object):
@@ -62,6 +63,8 @@ class GradioApp(object):
                 with gr.Column():
                     # Textbox for user input question (Chat task)
                     self.question = gr.Textbox(label="Question", visible=False)
+                    # Textbox for user input prompt (Image Generation task)
+                    self.prompt = gr.Textbox(label="Prompt", visible=False)
                     # Image upload component (Image Classification task)
                     self.upload_image = gr.Image(visible=False, type="pil")
 
@@ -81,9 +84,23 @@ class GradioApp(object):
                         visible=False,
                     )
 
+                    # Dropdown menu for selecting an image generation model
+                    self.select_image_gen_model = gr.Dropdown(
+                        self.available_models['Image Generation'],
+                        label="Models",
+                        value=self.available_models['Image Generation'][0],
+                        visible=False,
+                    )
+
                 with gr.Column():
+                    # TODO: Make visibility not static, same for question and prompt
+                    # Maybe check if variable in active task
+
                     # Textbox to display the generated answer
                     self.answer = gr.Textbox(label="Answer", visible=True)
+
+                    # Image to display the generated image
+                    self.output_image = gr.Image(label="Output Image", visible=True)
 
                     # Textbox to display the elapsed time for response generation
                     self.elapsed_time = gr.Textbox(label="Elapsed Time", visible=True)
@@ -91,7 +108,7 @@ class GradioApp(object):
             # Submit button and function for the Chat task
             self.submit_question = gr.Button("Submit Question", visible=False)
             self.submit_question.click(
-                fn=self.ask_model,
+                fn=self.chat_model,
                 inputs=[self.question, self.select_chat_model],
                 outputs=[self.answer, self.elapsed_time],
             )
@@ -104,10 +121,19 @@ class GradioApp(object):
                 outputs=[self.answer, self.elapsed_time]
             )
 
+            # Submit button and function for the Image Generation task
+            self.submit_prompt = gr.Button("Submit Prompt", visible=False)
+            self.submit_prompt.click(
+                fn=self.gen_image_model,
+                inputs=[self.prompt, self.select_image_gen_model],
+                outputs=[self.output_image, self.elapsed_time]
+            )
+
             # Define the interface objects for each task
             self.interface_objects = {
                 'Chat': [self.question, self.select_chat_model, self.submit_question],
                 'Image Classification': [self.upload_image, self.select_image_class_model, self.submit_image],
+                'Image Generation': [self.prompt, self.select_image_gen_model, self.submit_prompt],
             }
 
             # Update interface components based on the selected task
@@ -194,7 +220,7 @@ class GradioApp(object):
 
         return result, elapsed_time_text
 
-    def ask_model(self, prompt: str, model_name: str, max_tokens: int = 100):
+    def chat_model(self, prompt: str, model_name: str, max_tokens: int = 100):
         """
         Generate a response given a text prompt using a pre-trained language model.
 
@@ -235,6 +261,44 @@ class GradioApp(object):
         elapsed_time_text = f"The query took {elapsed_time} seconds"
 
         # Return the generated text and the time taken
+        return result, elapsed_time_text
+
+    def gen_image_model(self, prompt: str, model_name: str):
+        """
+        Generate a image given a text prompt using a pre-trained model.
+
+        Parameters:
+            prompt (str): The text prompt provided by the user.
+            model_name (str): The name of the pre-trained model to be used.
+
+        Returns:
+            tuple: A tuple containing the generated image and the time taken for generation.
+
+        This method loads the specified model if it doesn't exist yet. It then utilizes the
+        model to generate a image based on the provided prompt. The generated image and the
+        time taken for image generation are returned as a tuple.
+        """
+        # Record the starting time for performance measurement
+        start_time = time.time()
+
+        # Load the model if it doesn't exist yet
+        if model_name not in self.models.keys():
+            if self.verbose:
+                print(f'Loading Model ({model_name}) for task Image Generation...')
+
+            self.models[model_name] = ImageGenModel(model_name, self.verbose)
+
+        # Perform inference with the specified model
+        result = self.models[model_name].infer(
+            prompt,
+            seed=self.seed,
+        )
+
+        # Calculate elapsed time and append it to timers
+        elapsed_time = time.time() - start_time
+        self.timers.append(elapsed_time)
+        elapsed_time_text = f"The query took {elapsed_time} seconds"
+
         return result, elapsed_time_text
 
 
