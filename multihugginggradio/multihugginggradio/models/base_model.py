@@ -2,26 +2,26 @@ import torch
 from transformers import pipeline
 
 
-class BaseModel():
+class BasePipeline():
     def __init__(
         self,
         model_name: str,
         verbose: bool = False,
     ):
         """
-        Initialize a Base Model class using the Hugging Face Transformers library.
+        Initialize a BasePipeline class using the Hugging Face Transformers library.
 
         Parameters:
             model_name (str): The name or path of the pre-trained language model to be used.
             verbose (bool): Flag to display debug prints. Defaults to False.
 
-        This class wraps the Hugging Face `pipeline` function to create an instance of the BaseModel.
+        This class wraps the Hugging Face `pipeline` function to create an instance of the BasePipeline.
         The pipeline allows for easy text generation, completion, summarization, and other NLP tasks
-        using pre-trained models. The `BaseModel` class provides a convenient interface for using the pipeline.
+        using pre-trained models. The `BasePipeline` class provides a convenient interface for using the pipeline.
 
         Example usage:
         ```
-        model = BaseModel()
+        model = BasePipeline(model_name="text-generation-model")
         output = model.model("Text prompt...")
         print(output)
         ```

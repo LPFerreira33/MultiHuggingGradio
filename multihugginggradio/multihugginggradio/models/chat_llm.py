@@ -1,8 +1,8 @@
 import torch
-from multihugginggradio.models.base_model import BaseModel
+from multihugginggradio.models.base_model import BasePipeline
 
 
-class ChatLLM(BaseModel):
+class ChatLLM(BasePipeline):
     def __init__(
         self,
         model_name: str = 'databricks/dolly-v2-3b',
@@ -40,7 +40,7 @@ class ChatLLM(BaseModel):
             max_tokens (int): The maximum number of tokens in the generated response. Defaults to 100.
             seed (int): The seed to be used in the inference. Defaults to 33.
         Returns:
-            list: The generated output.
+            str: The generated output.
 
         This method utilizes the inherited `model` attribute from the base LLM class to generate a
         response based on the provided prompt. The `max_new_tokens` parameter is set to control the
