@@ -16,16 +16,17 @@ This application boasts an exceptionally interactive interface, seamlessly adapt
 
    <img src="./readme_images/multihugginggradio_init.png" alt="Task Selection" style="max-width: 50%;"/>
 
-**Text Generation:**
-
 2. **Text Generation Task:**
    - If you're interested in text generation, simply select the 'Chat' task and provide your prompt:
 
    <img src="./readme_images/multihugginggradio_text_generation.png" alt="Text Generation" style="max-width: 50%;"/>
 
-**Image Classification:**
+3. **Image Generation Task:**
+   - If you're interested in image generation, simply select the 'Image Generation' task and provide your prompt:
 
-3. **Image Classification Task:**
+   <img src="./readme_images/multihugginggradio_image_generation.png" alt="Image Generation" style="max-width: 50%;"/>
+
+4. **Image Classification Task:**
    - For image classification, opt for the 'Image Classification' task and submit the image you'd like to classify:
 
    <img src="./readme_images/multihugginggradio_image_classification.png" alt="Image Classification" style="max-width: 50%;"/>

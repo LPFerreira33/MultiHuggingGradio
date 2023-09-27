@@ -93,14 +93,14 @@ class GradioApp(object):
                     )
 
                 with gr.Column():
-                    # TODO: Make visibility not static, same for question and prompt
-                    # Maybe check if variable in active task
-
                     # Textbox to display the generated answer
-                    self.answer = gr.Textbox(label="Answer", visible=True)
+                    self.answer = gr.Textbox(label="Answer", visible=False)
+
+                    # Textbox to display the image classification
+                    self.classification = gr.Textbox(label="Classification", visible=False)
 
                     # Image to display the generated image
-                    self.output_image = gr.Image(label="Output Image", visible=True)
+                    self.output_image = gr.Image(label="Output Image", visible=False)
 
                     # Textbox to display the elapsed time for response generation
                     self.elapsed_time = gr.Textbox(label="Elapsed Time", visible=True)
@@ -108,21 +108,21 @@ class GradioApp(object):
             # Submit button and function for the Chat task
             self.submit_question = gr.Button("Submit Question", visible=False)
             self.submit_question.click(
-                fn=self.chat_model,
+                fn=self.ask_chat_model,
                 inputs=[self.question, self.select_chat_model],
                 outputs=[self.answer, self.elapsed_time],
             )
 
             # Submit button and function for the Image Classification task
-            self.submit_image = gr.Button("Submit Image", visible=False)
+            self.submit_image = gr.Button("Classify Image", visible=False)
             self.submit_image.click(
                 fn=self.classify_image_model,
                 inputs=[self.upload_image, self.select_image_class_model],
-                outputs=[self.answer, self.elapsed_time]
+                outputs=[self.classification, self.elapsed_time]
             )
 
             # Submit button and function for the Image Generation task
-            self.submit_prompt = gr.Button("Submit Prompt", visible=False)
+            self.submit_prompt = gr.Button("Generate Image", visible=False)
             self.submit_prompt.click(
                 fn=self.gen_image_model,
                 inputs=[self.prompt, self.select_image_gen_model],
@@ -131,9 +131,12 @@ class GradioApp(object):
 
             # Define the interface objects for each task
             self.interface_objects = {
-                'Chat': [self.question, self.select_chat_model, self.submit_question],
-                'Image Classification': [self.upload_image, self.select_image_class_model, self.submit_image],
-                'Image Generation': [self.prompt, self.select_image_gen_model, self.submit_prompt],
+                'Chat':
+                    [self.question, self.select_chat_model, self.submit_question, self.answer],
+                'Image Classification':
+                    [self.upload_image, self.select_image_class_model, self.submit_image, self.classification],
+                'Image Generation':
+                    [self.prompt, self.select_image_gen_model, self.submit_prompt, self.output_image],
             }
 
             # Update interface components based on the selected task
@@ -220,7 +223,7 @@ class GradioApp(object):
 
         return result, elapsed_time_text
 
-    def chat_model(self, prompt: str, model_name: str, max_tokens: int = 100):
+    def ask_chat_model(self, prompt: str, model_name: str, max_tokens: int = 100):
         """
         Generate a response given a text prompt using a pre-trained language model.
 
