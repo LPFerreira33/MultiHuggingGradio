@@ -47,3 +47,8 @@ class ImageClassModel:
         predicted_class = self.model.config.id2label[predicted_class_idx]
 
         return predicted_class if not return_logits else (predicted_class, logits)
+
+    def release(self):
+        del self.processor
+        del self.model
+        del self.verbose

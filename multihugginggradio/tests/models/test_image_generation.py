@@ -2,6 +2,7 @@ import torch
 import os
 import sys
 import pathlib
+import gc
 import numpy as np
 from PIL import Image, ImageChops
 from multihugginggradio.models.image_gen_model import ImageGenModel
@@ -36,7 +37,6 @@ class TestImageClassModel:
         based on a prompt and asserts whether the generated image matches the expected image. If the
         assertion fails, it indicates an unexpected image from the model.
         """
-
         # Prompt for image generation inference
         image_generation_prompt = "Pagani-like Sports Car"
 
@@ -53,5 +53,10 @@ class TestImageClassModel:
         else:  # Check on github actions workflow
             are_images_equal = not ImageChops.difference(generated_image, self.expected_image_ghactions).getbbox()
             assert are_images_equal, 'Failed! Unexpected generated image!'
-        
+
+        # Clear memory to avoid crashes
+        del generated_image
+        del are_images_equal
+        self.model.release()
         torch.cuda.empty_cache()
+        gc.collect()

@@ -15,9 +15,9 @@ class ImageGenModel:
             model_name (str): The name or path of the pre-trained image generation model to be used.
             verbose (bool): Flag to display debug prints. Defaults to False.
 
-        This class wraps the Diffusers `DiffusionPipeline.from_pretrained` function to create an instance of the ImageGenModel.
-        The pipeline allows for easy image generation using pre-trained models from Diffusers. The `ImageGenModel` class provides
-        a convenient interface for using the image generation pipeline.
+        This class wraps the Diffusers `DiffusionPipeline.from_pretrained` function to create an instance of the
+        ImageGenModel. The pipeline allows for easy image generation using pre-trained models from Diffusers. The
+        `ImageGenModel` class provides a convenient interface for using the image generation pipeline.
 
         Example usage:
         ```
@@ -61,3 +61,7 @@ class ImageGenModel:
         result = self.model(prompt, guidance_scale=guidance_scale)
 
         return result["images"][0]
+
+    def release(self):
+        del self.model
+        del self.verbose
