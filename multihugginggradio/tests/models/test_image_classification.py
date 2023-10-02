@@ -53,6 +53,6 @@ class TestImageClassModel:
         del predicted_class
         del scores
         del score
-        self.model.release()
+        self.model.release()  # This can be problematic with multiple tests using self.model. Change when that happen
         torch.cuda.empty_cache()
         gc.collect()

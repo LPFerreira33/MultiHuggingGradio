@@ -17,7 +17,6 @@ class TestImageClassModel:
         This class method is used to set up resources required for testing and to create an instance of
         the ImageClassModel class. It initializes attributes like the model name and expected response for later use.
         """
-
         file_path = pathlib.Path(__file__).parent.resolve()
 
         image_path = os.path.join(file_path, 'resources', 'mock_image_generation_output.png')
@@ -57,6 +56,6 @@ class TestImageClassModel:
         # Clear memory to avoid crashes
         del generated_image
         del are_images_equal
-        self.model.release()
+        self.model.release()  # This can be problematic with multiple tests using self.model. Change when that happen
         torch.cuda.empty_cache()
         gc.collect()
