@@ -9,8 +9,9 @@ class TestConfig:
     """
     A test class for verifying configuration file functionality.
 
-    This class contains two test methods, one for checking the presence of keys in a configuration file with resources
-    and another for checking the presence of keys in a configuration file without resources.
+    This class contains three test methods, one for checking the presence of keys in a configuration file with resources,
+    other for checking the presence of keys in a configuration file without resources, and another to check if
+    FileNotFoundError is raised if file does not exist.
     """
 
     def test_path_with_resources(self):
