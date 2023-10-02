@@ -1,12 +1,12 @@
 MultiHuggingGradio  ![MultiHuggingGradio Demo](https://github.com/LPFerreira33/MultiHuggingGradio/actions/workflows/env_creation_linter_and_tests.yml/badge.svg)
 ===================
 
-MultiHuggingGradio was meticulously crafted to empower the development of web applications using the powerful synergy of Hugging Face and Gradio libraries. This dynamic package is designed to excel in multi-modality tasks, seamlessly handling challenges such as text generation and image classification.
+MultiHuggingGradio was meticulously crafted to empower the development of web applications using the powerful synergy of Hugging Face and Gradio libraries. This dynamic package is designed to excel in multi-modality tasks, seamlessly handling challenges such as text generation, image generation and image classification.
 
 To set up an environment capable of running this package smoothly, please follow the steps provided below. Our repository is intricately linked with GitHub Actions, which automates critical processes such as building, testing, and deployment. In the testing phase, we rely on the robust capabilities of pytest and pytest-cov to rigorously evaluate our tests and analyze their coverage, ensuring the utmost reliability and performance.
 
 
-## 🎮 Interface Examples
+## 🎮 Interface Usage Examples
 This application boasts an exceptionally interactive interface, seamlessly adapting to different task modalities with intuitive ease.
 
 **Getting Started:**
@@ -32,7 +32,6 @@ This application boasts an exceptionally interactive interface, seamlessly adapt
    <img src="./readme_images/multihugginggradio_image_classification.png" alt="Image Classification" style="max-width: 50%;"/>
 
 This streamlined interface makes switching between tasks an effortless process, ensuring a user-friendly experience for all your multi-modality needs.
-
 
 
 ## 📐 How to Install
