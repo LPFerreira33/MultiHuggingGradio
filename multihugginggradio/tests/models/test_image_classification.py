@@ -29,8 +29,8 @@ class TestImageClassModel:
         Test the output of the image classification model's inference method.
 
         This method performs a test on the inference method of the ImageClassModel class. It generates a response
-        based on a prompt and asserts whether the generated response matches the expected response. If the
-        assertion fails, it indicates an unexpected response from the model.
+        based on an image and asserts whether the generated output matches the expected output. If the
+        assertion fails, it indicates an unexpected output from the model.
         """
         # Load the image for testing
         image = Image.open(os.path.join(pathlib.Path(__file__).parent.resolve(), 'resources', 'mock_sport_car.png'))
@@ -46,3 +46,5 @@ class TestImageClassModel:
         else:  # Check on github actions workflow
             assert predicted_class == self.expected_class_ghactions, 'Failed! Unexpected class prediction!'
             assert score == self.expected_score_ghactions, 'Failed! Unexpected class score prediction!'
+
+        torch.cuda.empty_cache()
