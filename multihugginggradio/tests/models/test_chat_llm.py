@@ -43,6 +43,6 @@ class TestChatLLM:
 
         # Clear memory to avoid crashes
         del response
-        self.model.release()
+        self.model.release()  # This can be problematic with multiple tests using self.model. Change when that happen
         torch.cuda.empty_cache()
         gc.collect()
