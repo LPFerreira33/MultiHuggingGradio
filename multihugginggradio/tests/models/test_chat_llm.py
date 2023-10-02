@@ -1,6 +1,6 @@
 import torch
 import sys
-
+import gc
 from multihugginggradio.models.chat_llm import ChatLLM
 
 
@@ -41,4 +41,8 @@ class TestChatLLM:
         else:  # Check on github actions workflow
             assert response == self.expected_output_ghactions, 'Failed! Unexpected output!'
 
+        # Clear memory to avoid crashes
+        del response
+        self.model.release()
         torch.cuda.empty_cache()
+        gc.collect()

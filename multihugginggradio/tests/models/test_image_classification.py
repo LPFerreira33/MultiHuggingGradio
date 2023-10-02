@@ -2,6 +2,7 @@ import torch
 import os
 import sys
 import pathlib
+import gc
 import numpy as np
 from PIL import Image
 from multihugginggradio.models.image_class_model import ImageClassModel
@@ -47,4 +48,11 @@ class TestImageClassModel:
             assert predicted_class == self.expected_class_ghactions, 'Failed! Unexpected class prediction!'
             assert score == self.expected_score_ghactions, 'Failed! Unexpected class score prediction!'
 
+        # Clear memory to avoid crashes
+        del image
+        del predicted_class
+        del scores
+        del score
+        self.model.release()
         torch.cuda.empty_cache()
+        gc.collect()

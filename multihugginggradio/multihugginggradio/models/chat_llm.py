@@ -66,3 +66,7 @@ class ChatLLM(BasePipeline):
         self.conversation_history.append(result[0]["generated_text"])
 
         return result[0]["generated_text"]
+
+    def release(self):
+        super().release()
+        del self.conversation_history

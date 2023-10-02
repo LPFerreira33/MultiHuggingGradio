@@ -33,3 +33,7 @@ class BasePipeline():
             device_map="auto",           # Automatically select the device for computation
         )
         self.verbose = verbose
+
+    def release(self):
+        del self.model
+        del self.verbose
