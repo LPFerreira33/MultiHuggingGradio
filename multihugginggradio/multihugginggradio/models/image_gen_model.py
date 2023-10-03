@@ -30,6 +30,7 @@ class ImageGenModel:
             model_name,                  # Model to be used from Diffusers
             torch_dtype=torch.bfloat16,  # Specify the data type for PyTorch tensors
             device_map="auto",           # Automatically select the device for computation
+            offload_folder="offload",    # Folder to offload the model if needed
         )
         self.verbose = verbose
 
