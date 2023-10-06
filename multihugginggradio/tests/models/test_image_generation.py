@@ -3,7 +3,6 @@ import os
 import sys
 import pathlib
 import gc
-import numpy as np
 from PIL import Image, ImageChops
 from multihugginggradio.models.image_gen_model import ImageGenModel
 
@@ -41,10 +40,6 @@ class TestImageClassModel:
 
         # Perform inference on the model
         generated_image = self.model.infer(image_generation_prompt, seed=33)
-
-        np.set_printoptions(threshold=sys.maxsize)
-        print(np.array(generated_image))
-        generated_image.save(os.path.join(pathlib.Path(__file__).parent.resolve(), 'resources', 'mock_image_generation_output_ghactions.png'))
 
         if sys.platform == "win32":  # Check locally (only on gpu)
             are_images_equal = not ImageChops.difference(generated_image, self.expected_image).getbbox(),
