@@ -52,6 +52,7 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -61,12 +62,14 @@ class TestGradioAppWithSelenium:
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Chat" task
         chat_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Chat']"
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, chat_xpath)))
         task_radio = driver.find_element(By.XPATH, chat_xpath)
         task_radio.click()
+        time.sleep(1)
 
         # Locate the chat input field and send a message
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "chat_question")))
@@ -96,6 +99,7 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -105,12 +109,14 @@ class TestGradioAppWithSelenium:
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Image Classification" task
         image_class_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Classification']"
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, image_class_xpath)))
         task_radio = driver.find_element(By.XPATH, image_class_xpath)
         task_radio.click()
+        time.sleep(1)
 
         # Locate the image upload field and upload a sample image
         drag_and_drop_xpath = "//input[@type='file' and @accept='image/*']"
@@ -140,6 +146,7 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -148,12 +155,14 @@ class TestGradioAppWithSelenium:
         driver = webdriver.Chrome(options=chrome_options)
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Image Generation" task
         image_gen_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Generation']"
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, image_gen_xpath)))
         task_button = driver.find_element(By.XPATH, image_gen_xpath)
         task_button.click()
+        time.sleep(1)
 
         # Locate the image generation input field and enter a prompt
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "image_gen_prompt")))
