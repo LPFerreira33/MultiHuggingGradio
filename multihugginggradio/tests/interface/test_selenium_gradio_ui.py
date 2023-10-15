@@ -4,6 +4,8 @@ import time
 import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
 from multihugginggradio.interface.gradio_ui import GradioApp  # Replace with the correct import for your GradioApp class
 
 
@@ -20,7 +22,7 @@ class TestGradioAppWithSelenium:
         app = GradioApp(model_config='config.yaml')
         self.gradio_process = multiprocessing.Process(target=app.run)
         self.gradio_process.start()
-        time.sleep(5)  # Wait for Gradio to start
+        time.sleep(10)  # Wait for Gradio to start
 
     def teardown_method(self):
         """
@@ -33,9 +35,21 @@ class TestGradioAppWithSelenium:
         """
         Test the chat functionality of the Gradio application.
         """
+        chrome_options = Options()
+        options = [
+            "--headless",
+            "--disable-gpu",
+            "--window-size=1920,1200",
+            "--ignore-certificate-errors",
+            "--disable-extensions",
+            "--no-sandbox",
+            "--disable-dev-shm-usage"
+        ]
+        for option in options:
+            chrome_options.add_argument(option)
 
         # Create a webdriver instance
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=chrome_options)
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
@@ -61,8 +75,21 @@ class TestGradioAppWithSelenium:
         Test the image classification functionality of the Gradio application.
         """
 
+        chrome_options = Options()
+        options = [
+            "--headless",
+            "--disable-gpu",
+            "--window-size=1920,1200",
+            "--ignore-certificate-errors",
+            "--disable-extensions",
+            "--no-sandbox",
+            "--disable-dev-shm-usage"
+        ]
+        for option in options:
+            chrome_options.add_argument(option)
+
         # Create a webdriver instance
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=chrome_options)
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
@@ -90,10 +117,21 @@ class TestGradioAppWithSelenium:
         """
         Test the image generation functionality of the Gradio application.
         """
+        chrome_options = Options()
+        options = [
+            "--headless",
+            "--disable-gpu",
+            "--window-size=1920,1200",
+            "--ignore-certificate-errors",
+            "--disable-extensions",
+            "--no-sandbox",
+            "--disable-dev-shm-usage"
+        ]
+        for option in options:
+            chrome_options.add_argument(option)
 
         # Create a webdriver instance
-        driver = webdriver.Chrome()
-
+        driver = webdriver.Chrome(options=chrome_options)
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
 
