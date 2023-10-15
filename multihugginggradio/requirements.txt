@@ -5,6 +5,8 @@ gradio==3.41.2
 accelerate==0.22.0
 pytest==7.4.2
 pytest-cov==4.1.0
+pytest-selenium==4.0.1
+py==1.11.0
 setuptools  # Install most recent version
 
 # Install pytorch

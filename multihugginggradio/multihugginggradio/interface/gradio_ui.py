@@ -56,15 +56,16 @@ class GradioApp(object):
             task = gr.Radio(
                 list(self.available_models.keys()),
                 label="Select Task",
+                elem_id="select_task",
             )
 
             # Create interface components for Chat task
             with gr.Row():
                 with gr.Column():
                     # Textbox for user input question (Chat task)
-                    self.question = gr.Textbox(label="Question", visible=False)
+                    self.question = gr.Textbox(label="Question", elem_id="chat_question", visible=False)
                     # Textbox for user input prompt (Image Generation task)
-                    self.prompt = gr.Textbox(label="Prompt", visible=False)
+                    self.prompt = gr.Textbox(label="Prompt", elem_id="image_gen_prompt", visible=False)
                     # Image upload component (Image Classification task)
                     self.upload_image = gr.Image(visible=False, type="pil")
 
@@ -106,7 +107,7 @@ class GradioApp(object):
                     self.elapsed_time = gr.Textbox(label="Elapsed Time", visible=True)
 
             # Submit button and function for the Chat task
-            self.submit_question = gr.Button("Submit Question", visible=False)
+            self.submit_question = gr.Button("Submit Question", elem_id='submit_question', visible=False)
             self.submit_question.click(
                 fn=self.ask_chat_model,
                 inputs=[self.question, self.select_chat_model],
@@ -114,7 +115,7 @@ class GradioApp(object):
             )
 
             # Submit button and function for the Image Classification task
-            self.submit_image = gr.Button("Classify Image", visible=False)
+            self.submit_image = gr.Button("Classify Image", elem_id='classify_image', visible=False)
             self.submit_image.click(
                 fn=self.classify_image_model,
                 inputs=[self.upload_image, self.select_image_class_model],
@@ -122,7 +123,7 @@ class GradioApp(object):
             )
 
             # Submit button and function for the Image Generation task
-            self.submit_prompt = gr.Button("Generate Image", visible=False)
+            self.submit_prompt = gr.Button("Generate Image", elem_id='generate_image', visible=False)
             self.submit_prompt.click(
                 fn=self.gen_image_model,
                 inputs=[self.prompt, self.select_image_gen_model],
@@ -147,7 +148,7 @@ class GradioApp(object):
             )
 
         # Launch the Gradio interface with the defined components
-        self.demo.launch(share=False)
+        self.demo.launch(share=False, server_port=7860)
 
     def change_interface(self, task: str):
         """
