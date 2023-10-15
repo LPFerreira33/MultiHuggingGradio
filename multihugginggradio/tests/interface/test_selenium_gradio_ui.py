@@ -43,25 +43,29 @@ class TestGradioAppWithSelenium:
             "--ignore-certificate-errors",
             "--disable-extensions",
             "--no-sandbox",
-            "--disable-dev-shm-usage"
+            "--disable-dev-shm-usage",
         ]
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
         driver = webdriver.Chrome(options=chrome_options)
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Chat" task
         task_radio = driver.find_element(By.XPATH, "//input[@type='radio' and @name='radio-select_task' and @value='Chat']")
         task_radio.click()
+        time.sleep(1)
 
         # Locate the chat input field and send a message
         question = driver.find_element(By.ID, "chat_question")
         chat_question = question.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         chat_question.send_keys("Hello World!")
+        time.sleep(1)
 
         # You may uncomment this line to interact with the chat functionality. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "submit_question").click()
@@ -87,12 +91,14 @@ class TestGradioAppWithSelenium:
         ]
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
         driver = webdriver.Chrome(options=chrome_options)
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Image Classification" task
         task_radio = driver.find_element(
@@ -100,11 +106,13 @@ class TestGradioAppWithSelenium:
             "//input[@type='radio' and @name='radio-select_task' and @value='Image Classification']"
         )
         task_radio.click()
+        time.sleep(1)
 
         # Locate the image upload field and upload a sample image
         drag_and_drop = driver.find_element(By.XPATH, "//input[@type='file' and @accept='image/*']")
         file_path = pathlib.Path(__file__).parent.resolve()
         drag_and_drop.send_keys(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
+        time.sleep(1)
 
         # You may uncomment this line to initiate image classification. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "classify_image").click()
@@ -129,11 +137,13 @@ class TestGradioAppWithSelenium:
         ]
         for option in options:
             chrome_options.add_argument(option)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
         driver = webdriver.Chrome(options=chrome_options)
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
+        time.sleep(1)
 
         # Select the "Image Generation" task
         task_button = driver.find_element(
@@ -141,11 +151,13 @@ class TestGradioAppWithSelenium:
             "//input[@type='radio' and @name='radio-select_task' and @value='Image Generation']"
         )
         task_button.click()
+        time.sleep(1)
 
         # Locate the image generation input field and enter a prompt
         image_gen_prompt = driver.find_element(By.ID, "image_gen_prompt")
         gen_image_prompt = image_gen_prompt.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         gen_image_prompt.send_keys("Mock Image")
+        time.sleep(1)
 
         # You may uncomment this line to initiate image generation. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "generate_image").click()
