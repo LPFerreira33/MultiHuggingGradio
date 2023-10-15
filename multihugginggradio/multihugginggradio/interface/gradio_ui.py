@@ -304,8 +304,3 @@ class GradioApp(object):
         elapsed_time_text = f"The query took {elapsed_time} seconds"
 
         return result, elapsed_time_text
-
-
-if __name__ == "__main__":
-    gui = GradioApp(model_config='config.yaml')
-    gui.run()

@@ -20,7 +20,7 @@ class TestGradioAppWithSelenium:
         app = GradioApp(model_config='config.yaml')
         self.gradio_process = multiprocessing.Process(target=app.run)
         self.gradio_process.start()
-        time.sleep(2)  # Wait for Gradio to start (adjust as needed)
+        time.sleep(5)  # Wait for Gradio to start
 
     def teardown_method(self):
         """
@@ -49,8 +49,9 @@ class TestGradioAppWithSelenium:
         chat_question = question.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         chat_question.send_keys("Hello World!")
 
-        # You may uncomment this line to interact with the chat functionality
+        # You may uncomment this line to interact with the chat functionality. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "submit_question").click()
+        # time.sleep(60)  # Wait for Gradio to start
 
         driver.close()
         driver.quit()
@@ -78,8 +79,9 @@ class TestGradioAppWithSelenium:
         file_path = pathlib.Path(__file__).parent.resolve()
         drag_and_drop.send_keys(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
 
-        # You may uncomment this line to initiate image classification
+        # You may uncomment this line to initiate image classification. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "classify_image").click()
+        # time.sleep(30)  # Wait for Gradio to start
 
         driver.close()
         driver.quit()
@@ -107,8 +109,9 @@ class TestGradioAppWithSelenium:
         gen_image_prompt = image_gen_prompt.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         gen_image_prompt.send_keys("Mock Image")
 
-        # You may uncomment this line to initiate image generation
+        # You may uncomment this line to initiate image generation. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "generate_image").click()
+        # time.sleep(30)  # Wait for Gradio to start
 
         driver.close()
         driver.quit()
