@@ -46,7 +46,6 @@ class TestGradioApp:
     """
     Test class for the GradioApp functionality.
     """
-
     def test_init(self, gradio_app):
         """
         Test GradioApp initialization and check for the existence of various attributes.
