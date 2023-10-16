@@ -5,6 +5,8 @@ import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from multihugginggradio.interface.gradio_ui import GradioApp  # Replace with the correct import for your GradioApp class
 
@@ -39,11 +41,7 @@ class TestGradioAppWithSelenium:
         options = [
             "--headless",
             "--disable-gpu",
-            "--window-size=1920,1200",
             "--ignore-certificate-errors",
-            "--disable-extensions",
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
         ]
         for option in options:
             chrome_options.add_argument(option)
@@ -54,22 +52,23 @@ class TestGradioAppWithSelenium:
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
-        time.sleep(1)
 
         # Select the "Chat" task
-        task_radio = driver.find_element(By.XPATH, "//input[@type='radio' and @name='radio-select_task' and @value='Chat']")
+        chat_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Chat']"
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, chat_xpath)))
+        task_radio = driver.find_element(By.XPATH, chat_xpath)
         task_radio.click()
-        time.sleep(1)
 
         # Locate the chat input field and send a message
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "chat_question")))
         question = driver.find_element(By.ID, "chat_question")
         chat_question = question.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         chat_question.send_keys("Hello World!")
-        time.sleep(1)
+        driver.implicitly_wait(1)
 
         # You may uncomment this line to interact with the chat functionality. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "submit_question").click()
-        # time.sleep(60)  # Wait for Gradio to start
+        # driver.implicitly_wait(60)
 
         driver.close()
         driver.quit()
@@ -83,11 +82,7 @@ class TestGradioAppWithSelenium:
         options = [
             "--headless",
             "--disable-gpu",
-            "--window-size=1920,1200",
             "--ignore-certificate-errors",
-            "--disable-extensions",
-            "--no-sandbox",
-            "--disable-dev-shm-usage"
         ]
         for option in options:
             chrome_options.add_argument(option)
@@ -98,25 +93,24 @@ class TestGradioAppWithSelenium:
 
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
-        time.sleep(1)
 
         # Select the "Image Classification" task
-        task_radio = driver.find_element(
-            By.XPATH,
-            "//input[@type='radio' and @name='radio-select_task' and @value='Image Classification']"
-        )
+        image_class_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Classification']"
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, image_class_xpath)))
+        task_radio = driver.find_element(By.XPATH, image_class_xpath)
         task_radio.click()
-        time.sleep(1)
 
         # Locate the image upload field and upload a sample image
-        drag_and_drop = driver.find_element(By.XPATH, "//input[@type='file' and @accept='image/*']")
+        drag_and_drop_xpath = "//input[@type='file' and @accept='image/*']"
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, drag_and_drop_xpath)))
+        drag_and_drop = driver.find_element(By.XPATH, drag_and_drop_xpath)
         file_path = pathlib.Path(__file__).parent.resolve()
         drag_and_drop.send_keys(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
-        time.sleep(1)
+        driver.implicitly_wait(1)
 
         # You may uncomment this line to initiate image classification. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "classify_image").click()
-        # time.sleep(30)  # Wait for Gradio to start
+        # driver.implicitly_wait(30)
 
         driver.close()
         driver.quit()
@@ -129,11 +123,7 @@ class TestGradioAppWithSelenium:
         options = [
             "--headless",
             "--disable-gpu",
-            "--window-size=1920,1200",
             "--ignore-certificate-errors",
-            "--disable-extensions",
-            "--no-sandbox",
-            "--disable-dev-shm-usage"
         ]
         for option in options:
             chrome_options.add_argument(option)
@@ -143,25 +133,23 @@ class TestGradioAppWithSelenium:
         driver = webdriver.Chrome(options=chrome_options)
         # Open your Gradio application in a new browser window
         driver.get("http://127.0.0.1:7860")
-        time.sleep(1)
 
         # Select the "Image Generation" task
-        task_button = driver.find_element(
-            By.XPATH,
-            "//input[@type='radio' and @name='radio-select_task' and @value='Image Generation']"
-        )
+        image_gen_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Generation']"
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, image_gen_xpath)))
+        task_button = driver.find_element(By.XPATH, image_gen_xpath)
         task_button.click()
-        time.sleep(1)
 
         # Locate the image generation input field and enter a prompt
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "image_gen_prompt")))
         image_gen_prompt = driver.find_element(By.ID, "image_gen_prompt")
         gen_image_prompt = image_gen_prompt.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         gen_image_prompt.send_keys("Mock Image")
-        time.sleep(1)
+        driver.implicitly_wait(1)
 
         # You may uncomment this line to initiate image generation. Increases coverage, but may lead to crashes.
         # driver.find_element(By.ID, "generate_image").click()
-        # time.sleep(30)  # Wait for Gradio to start
+        # driver.implicitly_wait(60)
 
         driver.close()
         driver.quit()
