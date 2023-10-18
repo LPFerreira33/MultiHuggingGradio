@@ -1,6 +1,10 @@
 import pytest
+import os
 import time
 import threading
+import pathlib
+from PIL import Image
+
 from multihugginggradio.interface.gradio_ui import GradioApp  # Replace with the correct import for your GradioApp class
 
 
@@ -8,24 +12,32 @@ from multihugginggradio.interface.gradio_ui import GradioApp  # Replace with the
 @pytest.fixture
 def gradio_app():
     """
-    Fixture to initialize a GradioApp instance, start its interface in a background thread, and clean up after the test.
+    Fixture to initialize a GradioApp instance.
     """
     # Initialize the GradioApp with a model configuration file 'config.yaml'
     app = GradioApp(model_config='config.yaml')
 
-    # Create a thread to run the Gradio interface in the background
-    thread = threading.Thread(target=app.run)
-    thread.daemon = True
-    thread.start()
-
-    # Give some time for the Gradio interface to start (adjust as needed)
-    time.sleep(5)
-
     # Yield the GradioApp instance for the test
     yield app
 
-    # Terminate the Gradio interface after the test
-    app.demo.close()
+
+# Define a fixture to set up and tear down the threaded GradioApp for testing
+@pytest.fixture
+def run_gradio_app(gradio_app):
+    """
+    Fixture to initialize a GradioApp instance, start its interface in a background thread, and clean up after the test.
+    """
+    # Create a thread to run the Gradio interface in the background
+    thread = threading.Thread(target=gradio_app.run, daemon=False)
+    thread.start()
+
+    # Give some time for the Gradio interface to start
+    time.sleep(5)
+
+    # Yield the GradioApp instance for the test
+    yield gradio_app
+
+    gradio_app.demo.close()
     thread.join()
 
 
@@ -60,17 +72,52 @@ class TestGradioApp:
         assert 'Image Generation' in gradio_app.available_models, "Image Generation model is not available."
 
     # Test various attributes and methods related to the running interface
-    def test_running_interface(self, gradio_app):
+    def test_running_interface(self, run_gradio_app):
         """
         Test various attributes and methods related to the running Gradio interface.
         """
-        assert hasattr(gradio_app, 'demo'), "GradioApp does not have 'demo' attribute."
-        assert hasattr(gradio_app, 'question'), "GradioApp does not have 'question' attribute."
-        assert hasattr(gradio_app, 'upload_image'), "GradioApp does not have 'upload_image' attribute."
-        assert hasattr(gradio_app, 'select_chat_model'), "GradioApp does not have 'select_chat_model' attribute."
-        assert hasattr(gradio_app, 'select_image_class_model'), "GradioApp does not have 'select_image_class_model' attribute."
-        assert hasattr(gradio_app, 'answer'), "GradioApp does not have 'answer' attribute."
-        assert hasattr(gradio_app, 'elapsed_time'), "GradioApp does not have 'elapsed_time' attribute."
-        assert hasattr(gradio_app, 'submit_question'), "GradioApp does not have 'submit_question' attribute."
-        assert hasattr(gradio_app, 'submit_image'), "GradioApp does not have 'submit_image' attribute."
-        assert hasattr(gradio_app, 'interface_objects'), "GradioApp does not have 'interface_objects' attribute."
+        assert hasattr(run_gradio_app, 'demo'), "GradioApp does not have 'demo' attribute."
+        assert hasattr(run_gradio_app, 'question'), "GradioApp does not have 'question' attribute."
+        assert hasattr(run_gradio_app, 'upload_image'), "GradioApp does not have 'upload_image' attribute."
+        assert hasattr(run_gradio_app, 'select_chat_model'), "GradioApp does not have 'select_chat_model' attribute."
+        assert hasattr(run_gradio_app, 'select_image_class_model'), \
+            "GradioApp does not have 'select_image_class_model' attribute."
+        assert hasattr(run_gradio_app, 'answer'), "GradioApp does not have 'answer' attribute."
+        assert hasattr(run_gradio_app, 'elapsed_time'), "GradioApp does not have 'elapsed_time' attribute."
+        assert hasattr(run_gradio_app, 'submit_question'), "GradioApp does not have 'submit_question' attribute."
+        assert hasattr(run_gradio_app, 'submit_image'), "GradioApp does not have 'submit_image' attribute."
+        assert hasattr(run_gradio_app, 'interface_objects'), "GradioApp does not have 'interface_objects' attribute."
+
+    def test_change_interface(self, run_gradio_app):
+        objects_list = run_gradio_app.change_interface('Chat')
+        assert isinstance(objects_list, list), "Change Interface does not return a list"
+
+    def test_chat(self, gradio_app):
+        result, elapsed_time_text = gradio_app.ask_chat_model("Hello", 'databricks/dolly-v2-3b')
+        assert isinstance(result, str), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'
+
+    def test_image_classification(self, gradio_app):
+        file_path = pathlib.Path(__file__).parent.resolve()
+        image = Image.open(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
+        result, elapsed_time_text = gradio_app.classify_image_model(image, 'google/vit-base-patch16-224')
+        assert isinstance(result, str), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'
+
+    def test_image_generation(self, gradio_app):
+        result, elapsed_time_text = gradio_app.gen_image_model("Mock image", 'CompVis/stable-diffusion-v1-4')
+
+        assert isinstance(result, Image.Image), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'

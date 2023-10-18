@@ -21,8 +21,10 @@ class TestGradioAppWithSelenium:
         """
         Launch the Gradio app in a separate process
         """
-        app = GradioApp(model_config='config.yaml')
-        self.gradio_process = multiprocessing.Process(target=app.run)
+        self.app = GradioApp(model_config='config.yaml')
+
+        self.gradio_process = multiprocessing.Process(target=self.app.run)
+        self.gradio_process.daemon = False
         self.gradio_process.start()
         time.sleep(10)  # Wait for Gradio to start
 
@@ -55,12 +57,12 @@ class TestGradioAppWithSelenium:
 
         # Select the "Chat" task
         chat_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Chat']"
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, chat_xpath)))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, chat_xpath)))
         task_radio = driver.find_element(By.XPATH, chat_xpath)
         task_radio.click()
 
         # Locate the chat input field and send a message
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "chat_question")))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "chat_question")))
         question = driver.find_element(By.ID, "chat_question")
         chat_question = question.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         chat_question.send_keys("Hello World!")
@@ -96,7 +98,7 @@ class TestGradioAppWithSelenium:
 
         # Select the "Image Classification" task
         image_class_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Classification']"
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, image_class_xpath)))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, image_class_xpath)))
         task_radio = driver.find_element(By.XPATH, image_class_xpath)
         task_radio.click()
 
@@ -136,12 +138,12 @@ class TestGradioAppWithSelenium:
 
         # Select the "Image Generation" task
         image_gen_xpath = "//input[@type='radio' and @name='radio-select_task' and @value='Image Generation']"
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, image_gen_xpath)))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, image_gen_xpath)))
         task_button = driver.find_element(By.XPATH, image_gen_xpath)
         task_button.click()
 
         # Locate the image generation input field and enter a prompt
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "image_gen_prompt")))
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "image_gen_prompt")))
         image_gen_prompt = driver.find_element(By.ID, "image_gen_prompt")
         gen_image_prompt = image_gen_prompt.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         gen_image_prompt.send_keys("Mock Image")
