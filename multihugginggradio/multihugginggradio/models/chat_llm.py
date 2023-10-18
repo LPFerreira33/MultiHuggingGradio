@@ -68,5 +68,8 @@ class ChatLLM(BasePipeline):
         return result[0]["generated_text"]
 
     def release(self):
+        """
+        Release resources associated with the model.
+        """
         super().release()
         del self.conversation_history
