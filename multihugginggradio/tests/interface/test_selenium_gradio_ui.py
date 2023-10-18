@@ -52,6 +52,8 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
@@ -97,6 +99,8 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
@@ -142,6 +146,8 @@ class TestGradioAppWithSelenium:
         # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
