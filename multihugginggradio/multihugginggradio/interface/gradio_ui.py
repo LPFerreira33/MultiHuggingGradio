@@ -1,4 +1,6 @@
 import time
+import torch
+import gc
 import gradio as gr
 
 from multihugginggradio.utils.config.config import UIConfig
@@ -190,10 +192,10 @@ class GradioApp(object):
             model_name (str): The name of the image classification model to use.
 
         Returns:
-            tuple: A tuple containing the classification result and elapsed time text.
+            tuple: A tuple containing the classification result and elapsed time.
 
                 - result: The classification result returned by the model.
-                - elapsed_time_text: A string describing the time taken for the classification.
+                - elapsed_time: A string describing the time taken for the classification.
 
         Note:
             This method loads and initializes the specified image classification model if it
@@ -262,10 +264,10 @@ class GradioApp(object):
         # Calculate the time taken for text generation
         elapsed_time = time.time() - start_time
         self.timers.append(elapsed_time)
-        elapsed_time_text = f"The query took {elapsed_time} seconds"
+        elapsed_time = f"The query took {elapsed_time} seconds"
 
         # Return the generated text and the time taken
-        return result, elapsed_time_text
+        return result, elapsed_time
 
     def gen_image_model(self, prompt: str, model_name: str):
         """
@@ -301,6 +303,13 @@ class GradioApp(object):
         # Calculate elapsed time and append it to timers
         elapsed_time = time.time() - start_time
         self.timers.append(elapsed_time)
-        elapsed_time_text = f"The query took {elapsed_time} seconds"
+        elapsed_time = f"The query took {elapsed_time} seconds"
 
-        return result, elapsed_time_text
+        return result, elapsed_time
+
+    def release_models(self):
+        for model in self.models.values():
+            model.release()
+        self.models = {}
+        torch.cuda.empty_cache()
+        gc.collect()
