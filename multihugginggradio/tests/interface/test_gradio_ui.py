@@ -46,7 +46,7 @@ class TestGradioApp:
     """
     Test class for the GradioApp functionality.
     """
-    # Test the initialization of GradioApp
+
     def test_init(self, gradio_app):
         """
         Test GradioApp initialization and check for the existence of various attributes.
@@ -61,7 +61,6 @@ class TestGradioApp:
         assert hasattr(gradio_app, 'models'), "GradioApp does not have 'models' attribute."
         assert hasattr(gradio_app, 'timers'), "GradioApp does not have 'timers' attribute."
 
-    # Test the available models dictionary in GradioApp
     def test_available_models(self, gradio_app):
         """
         Test the 'available_models' dictionary in GradioApp.
@@ -71,7 +70,6 @@ class TestGradioApp:
         assert 'Image Classification' in gradio_app.available_models, "Image Classification model is not available."
         assert 'Image Generation' in gradio_app.available_models, "Image Generation model is not available."
 
-    # Test various attributes and methods related to the running interface
     def test_running_interface(self, run_gradio_app):
         """
         Test various attributes and methods related to the running Gradio interface.
@@ -89,11 +87,19 @@ class TestGradioApp:
         assert hasattr(run_gradio_app, 'interface_objects'), "GradioApp does not have 'interface_objects' attribute."
 
     def test_change_interface(self, run_gradio_app):
+        """
+        Test the 'change_interface' method in GradioApp.
+        """
         objects_list = run_gradio_app.change_interface('Chat')
+
         assert isinstance(objects_list, list), "Change Interface does not return a list"
 
     def test_chat(self, gradio_app):
+        """
+        Test the chat functionality in GradioApp.
+        """
         result, elapsed_time_text = gradio_app.ask_chat_model("Hello", 'databricks/dolly-v2-3b')
+
         assert isinstance(result, str), "Result is not the correct type"
         assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
 
@@ -102,9 +108,14 @@ class TestGradioApp:
         assert gradio_app.models == {}, 'Models were not released correctly'
 
     def test_image_classification(self, gradio_app):
+        """
+        Test the image classification functionality in GradioApp.
+        """
         file_path = pathlib.Path(__file__).parent.resolve()
         image = Image.open(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
+
         result, elapsed_time_text = gradio_app.classify_image_model(image, 'google/vit-base-patch16-224')
+
         assert isinstance(result, str), "Result is not the correct type"
         assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
 
@@ -113,6 +124,9 @@ class TestGradioApp:
         assert gradio_app.models == {}, 'Models were not released correctly'
 
     def test_image_generation(self, gradio_app):
+        """
+        Test the image generation functionality in GradioApp.
+        """
         result, elapsed_time_text = gradio_app.gen_image_model("Mock image", 'CompVis/stable-diffusion-v1-4')
 
         assert isinstance(result, Image.Image), "Result is not the correct type"

@@ -49,6 +49,9 @@ class ImageClassModel:
         return predicted_class if not return_logits else (predicted_class, logits)
 
     def release(self):
+        """
+        Release resources associated with the model.
+        """
         del self.processor
         del self.model
         del self.verbose

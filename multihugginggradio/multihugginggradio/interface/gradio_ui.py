@@ -308,8 +308,23 @@ class GradioApp(object):
         return result, elapsed_time
 
     def release_models(self):
+        """
+        Releases all models, clears the models dictionary, and performs memory cleanup.
+
+        This method iterates through the dictionary of models, releasing each model using its 'release' method.
+        After releasing all models, it clears the models dictionary and performs memory cleanup to free GPU memory.
+
+        Note: Make sure that the models in the dictionary have a 'release' method implemented for proper resource cleanup.
+        """
+        # Iterate through the models in the dictionary
         for model in self.models.values():
-            model.release()
+            model.release()  # Release the model
+
+        # Clear the models dictionary
         self.models = {}
+
+        # Clear GPU memory
         torch.cuda.empty_cache()
+
+        # Perform garbage collection to free up system memory
         gc.collect()

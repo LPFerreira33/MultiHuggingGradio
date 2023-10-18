@@ -39,14 +39,21 @@ class TestGradioAppWithSelenium:
         """
         Test the chat functionality of the Gradio application.
         """
+        # Create ChromeOptions object to configure the Chrome browser when using Selenium
         chrome_options = Options()
+
+        # List of Chrome command-line options to set
         options = [
-            "--headless",
-            "--disable-gpu",
-            "--ignore-certificate-errors",
+            "--headless",  # Run Chrome in headless mode (no GUI)
+            "--disable-gpu",  # Disable GPU acceleration, which can cause issues in headless mode
+            "--ignore-certificate-errors",  # Ignore SSL certificate errors
         ]
+
+        # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
@@ -68,10 +75,6 @@ class TestGradioAppWithSelenium:
         chat_question.send_keys("Hello World!")
         driver.implicitly_wait(1)
 
-        # You may uncomment this line to interact with the chat functionality. Increases coverage, but may lead to crashes.
-        # driver.find_element(By.ID, "submit_question").click()
-        # driver.implicitly_wait(60)
-
         driver.close()
         driver.quit()
 
@@ -80,14 +83,21 @@ class TestGradioAppWithSelenium:
         Test the image classification functionality of the Gradio application.
         """
 
+        # Create ChromeOptions object to configure the Chrome browser when using Selenium
         chrome_options = Options()
+
+        # List of Chrome command-line options to set
         options = [
-            "--headless",
-            "--disable-gpu",
-            "--ignore-certificate-errors",
+            "--headless",  # Run Chrome in headless mode (no GUI)
+            "--disable-gpu",  # Disable GPU acceleration, which can cause issues in headless mode
+            "--ignore-certificate-errors",  # Ignore SSL certificate errors
         ]
+
+        # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
@@ -110,10 +120,6 @@ class TestGradioAppWithSelenium:
         drag_and_drop.send_keys(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
         driver.implicitly_wait(1)
 
-        # You may uncomment this line to initiate image classification. Increases coverage, but may lead to crashes.
-        # driver.find_element(By.ID, "classify_image").click()
-        # driver.implicitly_wait(30)
-
         driver.close()
         driver.quit()
 
@@ -121,14 +127,21 @@ class TestGradioAppWithSelenium:
         """
         Test the image generation functionality of the Gradio application.
         """
+        # Create ChromeOptions object to configure the Chrome browser when using Selenium
         chrome_options = Options()
+
+        # List of Chrome command-line options to set
         options = [
-            "--headless",
-            "--disable-gpu",
-            "--ignore-certificate-errors",
+            "--headless",  # Run Chrome in headless mode (no GUI)
+            "--disable-gpu",  # Disable GPU acceleration, which can cause issues in headless mode
+            "--ignore-certificate-errors",  # Ignore SSL certificate errors
         ]
+
+        # Loop through the list of options and add each one to the ChromeOptions object
         for option in options:
             chrome_options.add_argument(option)
+
+        # Configure an experimental option to exclude Chrome logging, which can be noisy in headless mode
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # Create a webdriver instance
@@ -148,10 +161,6 @@ class TestGradioAppWithSelenium:
         gen_image_prompt = image_gen_prompt.find_element(By.XPATH, ".//textarea[@data-testid='textbox']")
         gen_image_prompt.send_keys("Mock Image")
         driver.implicitly_wait(1)
-
-        # You may uncomment this line to initiate image generation. Increases coverage, but may lead to crashes.
-        # driver.find_element(By.ID, "generate_image").click()
-        # driver.implicitly_wait(60)
 
         driver.close()
         driver.quit()

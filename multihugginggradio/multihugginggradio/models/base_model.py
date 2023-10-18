@@ -35,5 +35,8 @@ class BasePipeline():
         self.verbose = verbose
 
     def release(self):
+        """
+        Release resources associated with the model.
+        """
         del self.model
         del self.verbose

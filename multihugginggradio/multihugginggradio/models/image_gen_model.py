@@ -64,5 +64,8 @@ class ImageGenModel:
         return result["images"][0]
 
     def release(self):
+        """
+        Release resources associated with the model.
+        """
         del self.model
         del self.verbose
