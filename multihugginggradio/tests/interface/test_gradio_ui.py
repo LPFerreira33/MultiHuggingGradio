@@ -107,21 +107,21 @@ class TestGradioApp:
     #     gradio_app.release_models()
     #     assert gradio_app.models == {}, 'Models were not released correctly'
 
-    # def test_image_classification(self, gradio_app):
-    #     """
-    #     Test the image classification functionality in GradioApp.
-    #     """
-    #     file_path = pathlib.Path(__file__).parent.resolve()
-    #     image = Image.open(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
+    def test_image_classification(self, gradio_app):
+        """
+        Test the image classification functionality in GradioApp.
+        """
+        file_path = pathlib.Path(__file__).parent.resolve()
+        image = Image.open(os.path.join(file_path, 'resources', 'mock_drag_and_drop_image.png'))
 
-    #     result, elapsed_time_text = gradio_app.classify_image_model(image, 'google/vit-base-patch16-224')
+        result, elapsed_time_text = gradio_app.classify_image_model(image, 'google/vit-base-patch16-224')
 
-    #     assert isinstance(result, str), "Result is not the correct type"
-    #     assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+        assert isinstance(result, str), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
 
-    #     # Clear memory to avoid crashes
-    #     gradio_app.release_models()
-    #     assert gradio_app.models == {}, 'Models were not released correctly'
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'
 
     # def test_image_generation(self, gradio_app):
     #     """
