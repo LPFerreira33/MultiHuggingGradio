@@ -123,15 +123,15 @@ class TestGradioApp:
         gradio_app.release_models()
         assert gradio_app.models == {}, 'Models were not released correctly'
 
-    # def test_image_generation(self, gradio_app):
-    #     """
-    #     Test the image generation functionality in GradioApp.
-    #     """
-    #     result, elapsed_time_text = gradio_app.gen_image_model("Mock image", 'CompVis/stable-diffusion-v1-4')
+    def test_image_generation(self, gradio_app):
+        """
+        Test the image generation functionality in GradioApp.
+        """
+        result, elapsed_time_text = gradio_app.gen_image_model("Mock image", 'CompVis/stable-diffusion-v1-4')
 
-    #     assert isinstance(result, Image.Image), "Result is not the correct type"
-    #     assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+        assert isinstance(result, Image.Image), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
 
-    #     # Clear memory to avoid crashes
-    #     gradio_app.release_models()
-    #     assert gradio_app.models == {}, 'Models were not released correctly'
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'
