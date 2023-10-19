@@ -94,18 +94,18 @@ class TestGradioApp:
 
         assert isinstance(objects_list, list), "Change Interface does not return a list"
 
-    # def test_chat(self, gradio_app):
-    #     """
-    #     Test the chat functionality in GradioApp.
-    #     """
-    #     result, elapsed_time_text = gradio_app.ask_chat_model("Hello", 'databricks/dolly-v2-3b')
+    def test_chat(self, gradio_app):
+        """
+        Test the chat functionality in GradioApp.
+        """
+        result, elapsed_time_text = gradio_app.ask_chat_model("Hello", 'databricks/dolly-v2-3b')
 
-    #     assert isinstance(result, str), "Result is not the correct type"
-    #     assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
+        assert isinstance(result, str), "Result is not the correct type"
+        assert isinstance(elapsed_time_text, str), "Elapsed time is not the correct type"
 
-    #     # Clear memory to avoid crashes
-    #     gradio_app.release_models()
-    #     assert gradio_app.models == {}, 'Models were not released correctly'
+        # Clear memory to avoid crashes
+        gradio_app.release_models()
+        assert gradio_app.models == {}, 'Models were not released correctly'
 
     def test_image_classification(self, gradio_app):
         """
