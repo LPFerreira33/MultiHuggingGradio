@@ -11,7 +11,7 @@ except FileNotFoundError:
 
 setup(
     name="MultiHuggingGradio",
-    version="0.1.0",
+    version="0.1.1",
     description="A short description of your package",
     long_description="A longer description of your package",
     long_description_content_type="text/markdown",
