@@ -36,7 +36,8 @@ This streamlined interface makes switching between tasks an effortless process, 
 
 ## 📐 How to Install
 
-CUDA_VERSION is machine dependent, in this installation version v11.6 (cu116) is installed, change depending on machine cuda version 
+CUDA_VERSION is machine dependent, in this installation version v11.6 (cu116) is installed, change depending on machine cuda version.
+Note: environment needs to be version 3.8.16.
 ```shell
 conda activate <your_env_name>
 
